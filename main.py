@@ -49,7 +49,7 @@ st.title("Generate Assignment in One Prompt")
 topic = st.text_input("Enter Topic:")
 extra_instruction = st.text_area("Extra Instruction (Optional)")
 
-file_type = st.selectbox("Select file type", ("Word Document", "PowerPoint"))
+file_type = st.selectbox("Select file type", ("Word Document (Docx) ", "PowerPoint Presentation (PPT) "))
 
 start_time = None
 end_time = None
