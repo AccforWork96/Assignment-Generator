@@ -46,20 +46,24 @@ st.set_page_config(page_title="Assignment Generator")
 
 st.title("Generate Assignment in One Prompt")
 
-prompt = st.text_input("Enter prompt to Generate Assignment:")
-
+topic = st.text_input("Enter Topic:")
+extra_instruction = st.text_area("Extra Instruction (Optional)")
 
 file_type = st.selectbox("Select file type", ("Word Document", "PowerPoint"))
 
 start_time = None
 end_time = None
 
-
 if st.button("Generate Content"):
-    if prompt:
+    if topic:
         start_time = time.time()
 
         with st.spinner("Please wait, your document is being generated..."):
+            if extra_instruction:
+                prompt = f"{topic}. {extra_instruction}"
+            else:
+                prompt = topic
+
             if file_type == "PowerPoint":
                 modified_prompt = f"Create a PowerPoint presentation on {prompt}. Break the content into slides. Each slide should have a title and bullet points. Provide at least 5 slides."
             else:
@@ -69,7 +73,7 @@ if st.button("Generate Content"):
 
             if file_type == "Word Document":
                 doc = Document()
-                doc.add_heading(f"{prompt}", level=1)
+                doc.add_heading(f"{topic}", level=1)
 
                 paragraphs = content.split('\n')
                 heading_level = 1
@@ -94,7 +98,7 @@ if st.button("Generate Content"):
                 st.download_button(
                     label="Download Word Document",
                     data=byte_stream,
-                    file_name=f"{prompt}.docx",
+                    file_name=f"{topic}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
 
@@ -113,11 +117,11 @@ if st.button("Generate Content"):
                 st.download_button(
                     label="Download PowerPoint Presentation",
                     data=byte_stream,
-                    file_name=f"{prompt}.pptx",
+                    file_name=f"{topic}.pptx",
                     mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
                 )
 
             st.success(f"Document generated in {elapsed_time:.2f} seconds.")
 
     else:
-        st.warning("Please enter a prompt to generate content.")
+        st.warning("Please enter a topic to generate content.")
