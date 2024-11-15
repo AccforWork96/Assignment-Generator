@@ -63,7 +63,7 @@ if st.button("Generate Content"):
             if file_type == "PowerPoint":
                 modified_prompt = f"Create a PowerPoint presentation on {prompt}. Break the content into slides. Each slide should have a title and bullet points. Provide at least 5 slides."
             else:
-                modified_prompt = f"{prompt}, Make this extremely beautiful and well structured"
+                modified_prompt = f"{prompt}"
 
             content = generate_content(modified_prompt)
 
